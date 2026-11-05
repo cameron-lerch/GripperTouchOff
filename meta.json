@@ -1,0 +1,51 @@
+{
+  "$schema": "https://dl.viam.dev/module.schema.json",
+  "module_id": "cameronlerch:gripper-touch-off",
+  "visibility": "public",
+  "url": "https://github.com/cameron-lerch/GripperTouchOff",
+  "description": "Find where a gripper's fingertips really are by touching the table (jogging onto paper, or by hand in manual mode), then update the gripper's frame to match. Run it from buttons on the machine's CONTROL tab.",
+  "models": [
+    {
+      "api": "rdk:service:generic",
+      "model": "cameronlerch:gripper-touch-off:touch-off",
+      "short_description": "The touch-off: touch the table with the gripper and correct its frame in the machine config.",
+      "markdown_link": "README.md#1-the-touch-off-service"
+    },
+    {
+      "api": "rdk:service:discovery",
+      "model": "cameronlerch:gripper-touch-off:setup",
+      "short_description": "Offers the touch-off's CONTROL-tab buttons, jog-step switch and status sensor, ready to add.",
+      "markdown_link": "README.md#2-add-the-controls"
+    },
+    {
+      "api": "rdk:component:button",
+      "model": "cameronlerch:gripper-touch-off:button",
+      "short_description": "One step of the touch-off (go to spot, jog down, record touch, finish...) as a Push button.",
+      "markdown_link": "README.md#the-controls"
+    },
+    {
+      "api": "rdk:component:switch",
+      "model": "cameronlerch:gripper-touch-off:jog-step",
+      "short_description": "Chooses the touch-off's jog step (0.1, 0.5, 1, 5mm).",
+      "markdown_link": "README.md#the-controls"
+    },
+    {
+      "api": "rdk:component:sensor",
+      "model": "cameronlerch:gripper-touch-off:status",
+      "short_description": "The touch-off's live state: fingertip gap, tilt, touches, result and what to do next.",
+      "markdown_link": "README.md#the-controls"
+    }
+  ],
+  "markdown_link": "README.md",
+  "entrypoint": "dist/main",
+  "build": {
+    "setup": "./setup.sh",
+    "build": "./build.sh",
+    "path": "dist/archive.tar.gz",
+    "arch": [
+      "linux/amd64",
+      "linux/arm64",
+      "darwin/arm64"
+    ]
+  }
+}

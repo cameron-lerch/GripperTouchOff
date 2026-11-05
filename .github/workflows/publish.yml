@@ -1,0 +1,23 @@
+# Builds the module on Viam's cloud runners for every platform in meta.json and uploads it to the
+# registry when a release with a semver tag (e.g. 0.1.0) is published.
+# Needs repository secrets viam_key_id / viam_key_value: an organization API key (viam organization api-key create).
+name: Publish
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check the tag is semver
+        run: |
+          [[ "${{ github.event.release.tag_name }}" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-rc[0-9]*)?$ ]] || { echo "tag must look like 1.2.3"; exit 1; }
+      - uses: actions/checkout@v4
+      - uses: viamrobotics/build-action@v1
+        with:
+          version: ${{ github.event.release.tag_name }}
+          ref: ${{ github.sha }}
+          key-id: ${{ secrets.viam_key_id }}
+          key-value: ${{ secrets.viam_key_value }}
